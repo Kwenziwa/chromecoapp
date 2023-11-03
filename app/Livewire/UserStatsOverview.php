@@ -15,8 +15,8 @@ class UserStatsOverview extends BaseWidget
                 ->icon('heroicon-o-user-group'),
             Stat::make('Total Admins',  User::with('roles')->get()->filter( fn ($user) => $user->roles->where('name', 'Admin')->toArray() )->count())
                 ->icon('heroicon-m-user-circle'),
-            Stat::make('Total Males', '3:12'),
-            Stat::make('Total Females', '3:12'),
+            Stat::make('Total Males', User::where('gender','male')->count()),
+            Stat::make('Total Females',User::where('gender','female')->count()),
         ];
     }
 }

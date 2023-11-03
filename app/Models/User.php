@@ -4,6 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
+use App\Enums\UserGender;
+use App\Enums\UserStatus;
+use App\Models\Portfolio;
+use App\Models\MedicationOrder;
 use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\HasName;
 use Spatie\Permission\Traits\HasRoles;
@@ -13,9 +17,14 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
+class User extends Authenticatable implements HasName, HasAvatar
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    protected $enumCasts = [
+        'status' => UserStatus::class,
+        'gender' => UserGender::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -25,6 +34,8 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
     protected $fillable = [
         'first_name',
         'last_name',
+        'gender',
+        'status',
         'email',
         'password',
     ];
@@ -49,11 +60,11 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
         'password' => 'hashed',
     ];
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return $this->hasRole(['Admin','Writer']);
+    // public function canAccessPanel(Panel $panel): bool
+    // {
+    //     return $this->hasRole(['Admin','Moderator','Writer','User']);
 
-    }
+    // }
 
     public function getFilamentName(): string
     {
@@ -65,4 +76,13 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
         return $this->avatar_url;
     }
 
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class); // One-to-Many with Portfolio
+    }
+
+    public function medicationOrders()
+    {
+        return $this->hasMany(MedicationOrder::class); // One-to-Many with MedicationOrder
+    }
 }

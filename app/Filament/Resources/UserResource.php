@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\DeleteAction;
@@ -48,6 +49,18 @@ class UserResource extends Resource
                             ->email()
                             ->required()
                             ->maxLength(255),
+                        Select::make('gender')
+                            ->options([
+                                'male' => 'Male',
+                                'female' => 'Female',
+                                'other' => 'Other',
+                            ])->required(),
+                        Select::make('status')
+                            ->options([
+                                'active' => 'Active',
+                                'inactive' => 'Inactive',
+                                'suspended' => 'Suspended',
+                            ])->required(),
                         FileUpload::make('profile_image')
                             ->image(),
                         TextInput::make('address')
@@ -82,6 +95,14 @@ class UserResource extends Resource
                     TextColumn::make('first_name')->sortable()->searchable(),
                     TextColumn::make('last_name')->sortable()->searchable(),
                     TextColumn::make('email')->sortable()->searchable(),
+                    TextColumn::make('gender')->sortable(),
+
+                    BadgeColumn::make('status')->colors([
+                         'success' => 'active',
+                         'warning' => 'inactive',
+                         'danger' => 'suspended',
+                    ]),
+
                     TextColumn::make('address')->sortable()->searchable(),
                     TextColumn::make('phone_number')->sortable()->searchable(),
                     TextColumn::make('created_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
