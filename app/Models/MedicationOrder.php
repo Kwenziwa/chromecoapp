@@ -11,11 +11,11 @@ class MedicationOrder extends Model
 {
     use HasFactory;
         // Define the table associated with the model (if it's different from the default table name).
-    protected $primaryKey = 'order_id'; // Primary Key
 
     protected $fillable = [
         'user_id',
         'medication_id',
+        'pickup_at',
         'quantity',
         'order_date',
         'status',
@@ -26,8 +26,8 @@ class MedicationOrder extends Model
         return $this->belongsTo(User::class, 'user_id'); // Many-to-One with User
     }
 
-    public function medications()
+    public function medication()
     {
-        return $this->belongsToMany(Medication::class, 'medication_order', 'order_id', 'medication_id'); // Many-to-Many with Medication
+        return $this->belongsTo(Medication::class,'medication_id');
     }
 }

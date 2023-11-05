@@ -12,6 +12,7 @@ use App\Livewire\UserStatsOverview;
 use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\BadgeColumn;
@@ -96,7 +97,6 @@ class UserResource extends Resource
                     TextColumn::make('last_name')->sortable()->searchable(),
                     TextColumn::make('email')->sortable()->searchable(),
                     TextColumn::make('gender')->sortable(),
-
                     BadgeColumn::make('status')->colors([
                          'success' => 'active',
                          'warning' => 'inactive',
@@ -115,6 +115,7 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make()->requiresConfirmation(),
+                ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

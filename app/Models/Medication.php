@@ -18,6 +18,6 @@ class Medication extends Model
 
     public function medicationOrders()
     {
-        return $this->belongsToMany(MedicationOrder::class, 'medication_order', 'medication_id', 'order_id'); // Many-to-Many with MedicationOrder
+        return $this->hasMany(MedicationOrder::class);
     }
 }
