@@ -14,10 +14,11 @@ class Medication extends Model
         'name',
         'dosage',
         'description',
+        'slug',
+        'sku',
+        'image_url',
+        'quantity',
+        'is_visible',
+        'is_featured',
     ];
-
-    public function medicationOrders()
-    {
-        return $this->hasMany(MedicationOrder::class);
-    }
 }

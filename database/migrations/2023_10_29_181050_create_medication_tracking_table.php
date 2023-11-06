@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('medication_id');
             $table->foreign('medication_id')->references('id')->on('medications');
             $table->dateTime('date_and_time_of_intake');
+            
             $table->timestamps();
         });
     }

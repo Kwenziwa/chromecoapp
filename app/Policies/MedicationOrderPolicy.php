@@ -25,7 +25,7 @@ class MedicationOrderPolicy
      */
     public function view(User $user, MedicationOrder $medicationOrder): bool
     {
-        if($user->hasRole(['Admin','Moderator'])){
+        if($user->hasRole(['Admin','Moderator']) ||  $user->hasPermissionTo('View Order')){
             return true;
         }
         return false;

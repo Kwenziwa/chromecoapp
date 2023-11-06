@@ -15,7 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('dosage')->nullable();
-            $table->text('description')->nullable();
+            $table->string('slug')->unique();
+            $table->string('sku')->unique();
+            $table->string('image_url')->nullable();
+            $table->longText('description')->nullable();
+            $table->unsignedBigInteger('quantity')->default(0);
+            $table->boolean('is_visible')->default(false);
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }
