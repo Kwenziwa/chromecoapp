@@ -19,6 +19,7 @@ class AdminSeeder extends Seeder
         $role_admin = Role::create(['name' => 'Admin']);
         $role_writer = Role::create(['name' => 'Writer']);
         $role_moderator = Role::create(['name' => 'Moderator']);
+        $role_user = Role::create(['name' => 'User']);
         //Create Admin
         $admin = User::factory()->create([
             'first_name' => 'Admin',
@@ -48,7 +49,7 @@ class AdminSeeder extends Seeder
         ]);
         $moderator->assignRole($role_moderator);
 
-        //Create User
+        //Create Normal User
         $user = User::factory()->create([
             'first_name' => 'User',
             'last_name' => 'User',
@@ -56,5 +57,6 @@ class AdminSeeder extends Seeder
             'status'=> UserStatus::ACTIVE,
             'gender' => UserGender::OTHER,
         ]);
+        $user->assignRole($role_user);
     }
 }

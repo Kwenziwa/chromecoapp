@@ -95,6 +95,9 @@ class UserResource extends Resource
 
                     TextColumn::make('first_name')->sortable()->searchable(),
                     TextColumn::make('last_name')->sortable()->searchable(),
+                    ImageColumn::make('profile_image')->label('Profile')
+                                ->circular()
+                                ->defaultImageUrl(url('/images/user_default.png')),
                     TextColumn::make('email')->sortable()->searchable(),
                     TextColumn::make('gender')->sortable(),
                     BadgeColumn::make('status')->colors([
@@ -103,7 +106,7 @@ class UserResource extends Resource
                          'danger' => 'suspended',
                     ]),
 
-                    TextColumn::make('address')->sortable()->searchable(),
+                    TextColumn::make('address')->wrap()->limit(20)->sortable()->searchable(),
                     TextColumn::make('phone_number')->sortable()->searchable(),
                     TextColumn::make('created_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
                     TextColumn::make('updated_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
