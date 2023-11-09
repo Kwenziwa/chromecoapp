@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Medication;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderItem extends Model
 {
@@ -13,4 +14,9 @@ class OrderItem extends Model
         'medication_id',
         'quantity',
     ];
+
+    public function medication()
+    {
+        return $this->belongsTo(Medication::class);
+    }
 }

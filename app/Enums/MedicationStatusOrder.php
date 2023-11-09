@@ -29,7 +29,7 @@ enum MedicationStatusOrder: string implements HasLabel, HasColor, HasIcon
         return match ($this) {
             self::PROCESSING => 'warning',
             self::PENDING => 'gray',
-            self::READY => 'pink',
+            self::READY => 'indigo',
             self::COLLECTED => 'success',
             self::CANCELLED => 'danger',
         };

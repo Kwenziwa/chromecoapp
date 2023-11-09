@@ -54,5 +54,7 @@ class Register extends BaseRegister
             ->autofocus();
     }
 
+    
+
 
 }

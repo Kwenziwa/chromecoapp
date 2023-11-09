@@ -16,7 +16,9 @@ use App\Enums\OrderStatus;
 use App\Models\Medication;
 use Filament\Tables\Table;
 use Filament\DateTimePicker;
+use Pages\ViewMedicationOrder;
 use App\Models\MedicationOrder;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use App\Enums\MedicationStatusOrder;
 use Filament\Forms\Components\Repeater;
@@ -25,7 +27,10 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Infolists\Components\RepeatableEntry;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\MedicationOrderResource\Pages;
 use App\Filament\Resources\MedicationOrderResource\RelationManagers;
@@ -116,7 +121,6 @@ class MedicationOrderResource extends Resource
                 TextColumn::make('pickup_at')->date()->sortable()->searchable(),
                 TextColumn::make('created_at')->date()->sortable()->searchable(),
                 TextColumn::make('updated_at')->date()->sortable()->searchable(),
-
             ])
             ->filters([
                 //
@@ -148,6 +152,7 @@ class MedicationOrderResource extends Resource
             'index' => Pages\ListMedicationOrders::route('/'),
             'create' => Pages\CreateMedicationOrder::route('/create'),
             'edit' => Pages\EditMedicationOrder::route('/{record}/edit'),
+            'view' => Pages\ViewMedicationOrder::route('/{record}'),
         ];
     }
 
@@ -164,6 +169,34 @@ class MedicationOrderResource extends Resource
             return parent::getEloquentQuery()->where('user_id', auth()->id());
         }
         return parent::getEloquentQuery();
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                TextEntry::make('order_number'),
+                TextEntry::make('user.first_name'),
+                TextEntry::make('status')->badge(),
+                TextEntry::make('pickup_at')->date(),
+                TextEntry::make('created_at')->date(),
+                TextEntry::make('updated_at')->date(),
+
+                Section::make('Medication Order Items')
+                        ->description('Prevent abuse by limiting the number of requests per period')
+                        ->schema([
+                            RepeatableEntry::make('items')->label('')
+                                            ->schema([
+                                                TextEntry::make('medication.name')->label('Medication Name'),
+                                                TextEntry::make('medication.dosage')->label('Dosage'),
+                                                TextEntry::make('medication.description')->label('Description')
+                                                    ->columns(3),
+                                            ])
+                                            ->columns(2)
+                        ])->columns(1)
+
+
+            ])->columns(2);
     }
 
 
