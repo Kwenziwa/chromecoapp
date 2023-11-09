@@ -9,6 +9,7 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Pages\Auth\Register as BaseRegister;;
+use Cheesegrits\FilamentPhoneNumbers\Forms\Components\PhoneNumber;
 
 class Register extends BaseRegister
 {
@@ -36,10 +37,7 @@ class Register extends BaseRegister
                         ->image(),
                 TextInput::make('address')
                     ->maxLength(255),
-                TextInput::make('phone_number')
-                    ->tel()
-                    ->maxLength(255),
-                $this->getEmailFormComponent(),
+                PhoneNumber::make('phone_number')->region('ZA'),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
             ])->columns(1)

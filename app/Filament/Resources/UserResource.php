@@ -23,7 +23,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Cheesegrits\FilamentPhoneNumbers\Enums\PhoneFormat;
 use App\Filament\Resources\UserResource\RelationManagers;
+use Cheesegrits\FilamentPhoneNumbers\Columns\PhoneNumberColumn;
+use Cheesegrits\FilamentPhoneNumbers\Forms\Components\PhoneNumber;
 
 class UserResource extends Resource
 {
@@ -66,9 +69,7 @@ class UserResource extends Resource
                             ->image(),
                         TextInput::make('address')
                             ->maxLength(255),
-                        TextInput::make('phone_number')
-                            ->tel()
-                            ->maxLength(255),
+                        PhoneNumber::make('phone_number')->region('ZA'),
                         TextInput::make('password')
                             ->password()
                             ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
@@ -107,7 +108,10 @@ class UserResource extends Resource
                     ]),
 
                     TextColumn::make('address')->wrap()->limit(20)->sortable()->searchable(),
-                    TextColumn::make('phone_number')->sortable()->searchable(),
+                    PhoneNumberColumn::make('phone_number')
+                                ->displayFormat(PhoneFormat::NATIONAL)
+                                ->region('ZA')
+                                ->dial(),
                     TextColumn::make('created_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
                     TextColumn::make('updated_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
 
