@@ -70,20 +70,20 @@ class UserResource extends Resource
                             ->image(),
                         TextInput::make('address')
                             ->maxLength(255),
-                        PhoneInput::make('phone_number')->defaultCountry('ZA'),
+                        PhoneInput::make('phone_number')->defaultCountry('ZAR'),
                         TextInput::make('password')
                             ->password()
-                            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                            ->dehydrated(fn (?string $state): bool => filled($state))
-                            ->required(fn (string $operation): bool => $operation === 'create')
+                            ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
+                            ->dehydrated(fn(?string $state): bool => filled($state))
+                            ->required(fn(string $operation): bool => $operation === 'create')
                             ->maxLength(255),
                         Select::make('roles')
                             ->preload()
-                            ->relationship('roles',titleAttribute: 'name'),
+                            ->relationship('roles', titleAttribute: 'name'),
                         Select::make('permissions')
                             ->multiple()
                             ->preload()
-                            ->relationship('permissions',titleAttribute: 'name')
+                            ->relationship('permissions', titleAttribute: 'name')
 
                     ])
                     ->columns(2),
@@ -95,26 +95,26 @@ class UserResource extends Resource
         return $table
             ->columns([
 
-                    TextColumn::make('first_name')->sortable()->searchable(),
-                    TextColumn::make('last_name')->sortable()->searchable(),
-                    ImageColumn::make('profile_image')->label('Profile')
-                                ->circular()
-                                ->defaultImageUrl(url('/images/user_default.png')),
-                    TextColumn::make('email')->sortable()->searchable(),
-                    TextColumn::make('gender')->sortable(),
-                    BadgeColumn::make('status')->colors([
-                         'success' => 'active',
-                         'warning' => 'inactive',
-                         'danger' => 'suspended',
-                    ]),
+                TextColumn::make('first_name')->sortable()->searchable(),
+                TextColumn::make('last_name')->sortable()->searchable(),
+                ImageColumn::make('profile_image')->label('Profile')
+                    ->circular()
+                    ->defaultImageUrl(url('/images/user_default.png')),
+                TextColumn::make('email')->sortable()->searchable(),
+                TextColumn::make('gender')->sortable(),
+                BadgeColumn::make('status')->colors([
+                    'success' => 'active',
+                    'warning' => 'inactive',
+                    'danger' => 'suspended',
+                ]),
 
-                    TextColumn::make('address')->wrap()->limit(20)->sortable()->searchable(),
-                    PhoneNumberColumn::make('phone_number')
-                                ->displayFormat(PhoneFormat::NATIONAL)
-                                ->region('ZA')
-                                ->dial(),
-                    TextColumn::make('created_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
-                    TextColumn::make('updated_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('address')->wrap()->limit(20)->sortable()->searchable(),
+                PhoneNumberColumn::make('phone_number')
+                    ->displayFormat(PhoneFormat::NATIONAL)
+                    ->region('ZA')
+                    ->dial(),
+                TextColumn::make('created_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')->dateTime('d-M-Y')->sortable()->toggleable(isToggledHiddenByDefault: true),
 
             ])
             ->filters([

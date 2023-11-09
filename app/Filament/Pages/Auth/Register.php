@@ -38,7 +38,7 @@ class Register extends BaseRegister
                         ->image(),
                 TextInput::make('address')
                     ->maxLength(255),
-                PhoneInput::make('phone_number')->defaultCountry('ZA'),
+                PhoneInput::make('phone_number')->defaultCountry('ZAR'),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
             ])->columns(1)
