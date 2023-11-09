@@ -69,7 +69,7 @@ class UserResource extends Resource
                             ->image(),
                         TextInput::make('address')
                             ->maxLength(255),
-                        PhoneNumber::make('phone_number')->region('ZA'),
+                        PhoneInput::make('phone_number')->defaultCountry('ZA'),
                         TextInput::make('password')
                             ->password()
                             ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))

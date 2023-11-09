@@ -8,6 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Filament\Pages\Auth\Register as BaseRegister;;
 use Cheesegrits\FilamentPhoneNumbers\Forms\Components\PhoneNumber;
 
@@ -37,11 +38,11 @@ class Register extends BaseRegister
                         ->image(),
                 TextInput::make('address')
                     ->maxLength(255),
-                PhoneNumber::make('phone_number')->region('ZA'),
+                PhoneInput::make('phone_number')->defaultCountry('ZA'),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
             ])->columns(1)
-            ->statePath('data');;
+            ->statePath('data');
     }
 
 
@@ -54,7 +55,7 @@ class Register extends BaseRegister
             ->autofocus();
     }
 
-    
+
 
 
 }
