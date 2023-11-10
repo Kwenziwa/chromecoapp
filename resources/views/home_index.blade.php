@@ -109,12 +109,19 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <a class="nav-link click-scroll" href="#section_6">Contact</a>
                     </li>
 
+                    @auth
+                    <li class="nav-item ms-3">
+                        <a class="nav-link custom-btn custom-border-btn btn" href="/admin/login">Dashboard</a>
+                    </li>
+
+                    @else
                     <li class="nav-item ms-3">
                         <a class="nav-link custom-btn custom-border-btn btn" href="/admin/login">Sign In</a>
                     </li>
                     <li class="nav-item ms-3">
                         <a class="nav-link custom-btn custom-border-btn btn" href="/admin/register">Sign Up</a>
                     </li>
+                    @endauth
                 </ul>
             </div>
         </div>
@@ -240,7 +247,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                 program was presented as a result of our efforts. You can downalod our project here <a
                                     href="https://github.com/Kwenziwa/chromecoapp" class="social-icon-link
                                     bi-github"></a> <a href="https://github.com/Kwenziwa/chromecoapp"
-                                        class="custom-btn custom-border-btn btn">Download Now</a>
+                                    class="custom-btn custom-border-btn btn">Download Now</a>
                             </p>
                         </div>
 
@@ -448,7 +455,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     <i class="bi-envelope me-2"></i>
 
                                     <a href="mailto:info@yourgmail.com">
-                                        support@example.org
+                                        support@example.com
                                     </a>
                                 </p>
 
@@ -462,7 +469,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                             <h2>Contact form</h2>
 
                             <p class="mb-4">Or, you can just send an email:
-                                <a href="#">info@charity.org</a>
+                                <a href="#">info@example.com</a>
                             </p>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-12">
@@ -477,7 +484,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                             </div>
 
                             <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control"
-                                placeholder="Jackdoe@gmail.com" required>
+                                placeholder="user@example.com" required>
 
                             <textarea name="message" rows="5" class="form-control" id="message"
                                 placeholder="What can we help you?"></textarea>
@@ -529,7 +536,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <i class="bi-envelope me-2"></i>
 
                         <a href="mailto:info@yourgmail.com" class="site-footer-link">
-                            support@example.org
+                            support@example.com
                         </a>
                     </p>
 
