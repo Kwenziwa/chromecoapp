@@ -26,6 +26,7 @@ use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Cheesegrits\FilamentPhoneNumbers\Enums\PhoneFormat;
 use App\Filament\Resources\UserResource\RelationManagers;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use Cheesegrits\FilamentPhoneNumbers\Columns\PhoneNumberColumn;
 use Cheesegrits\FilamentPhoneNumbers\Forms\Components\PhoneNumber;
 
@@ -70,7 +71,7 @@ class UserResource extends Resource
                             ->image(),
                         TextInput::make('address')
                             ->maxLength(255),
-                        PhoneInput::make('phone_number')->defaultCountry('ZAR'),
+                        PhoneInput::make('phone_number')->onlyCountries(['za']),
                         TextInput::make('password')
                             ->password()
                             ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
@@ -129,6 +130,7 @@ class UserResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                ExportBulkAction::make()
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

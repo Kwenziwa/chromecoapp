@@ -28,11 +28,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Health::checks([
             OptimizedAppCheck::new(),
-            DatabaseCheck::new(),
             DebugModeCheck::new(),
-            MeiliSearchCheck::new(),
             EnvironmentCheck::new(),
-            UsedDiskSpaceCheck::new()->warnWhenUsedSpaceIsAbovePercentage(70)->failWhenUsedSpaceIsAbovePercentage(90),
         ]);
     }
 }

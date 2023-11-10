@@ -8,7 +8,9 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use App\Filament\Pages\Auth\Register;
+use Awcodes\LightSwitch\Enums\Alignment;
 use App\Filament\Pages\HealthCheckResults;
+use Awcodes\LightSwitch\LightSwitchPlugin;
 use Filament\Http\Middleware\Authenticate;
 use App\Http\Middleware\UserMenuItemMiddleware;
 use Illuminate\Session\Middleware\StartSession;
@@ -44,10 +46,10 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->plugin(
-                FilamentSpatieLaravelHealthPlugin::make()
-                    ->usingPage(HealthCheckResults::class)
-            )
+            ->plugins([
+                FilamentSpatieLaravelHealthPlugin::make()->usingPage(HealthCheckResults::class),
+                LightSwitchPlugin::make(),
+            ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->middleware([
                 EncryptCookies::class,

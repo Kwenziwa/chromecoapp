@@ -9,7 +9,8 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
-use Filament\Pages\Auth\Register as BaseRegister;;
+use Filament\Pages\Auth\Register as BaseRegister;
+;
 use Cheesegrits\FilamentPhoneNumbers\Forms\Components\PhoneNumber;
 
 class Register extends BaseRegister
@@ -35,10 +36,10 @@ class Register extends BaseRegister
                         'other' => 'Other',
                     ])->required(),
                 FileUpload::make('profile_image')
-                        ->image(),
+                    ->image(),
                 TextInput::make('address')
                     ->maxLength(255),
-                PhoneInput::make('phone_number')->defaultCountry('ZAR'),
+                PhoneInput::make('phone_number')->onlyCountries(['za']),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
             ])->columns(1)
@@ -48,7 +49,7 @@ class Register extends BaseRegister
 
     protected function getFirstNameFormComponent(): Component
     {
-        return  TextInput::make('first_name')
+        return TextInput::make('first_name')
             ->label(__('filament-panels::pages/auth/register.form.name.label'))
             ->required()
             ->maxLength(255)
