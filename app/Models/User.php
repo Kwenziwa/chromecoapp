@@ -14,10 +14,11 @@ use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasName, HasAvatar
+class User extends Authenticatable implements HasName, HasAvatar, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
