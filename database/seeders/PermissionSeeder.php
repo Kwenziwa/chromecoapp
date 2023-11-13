@@ -24,5 +24,18 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'View Order']);
         Permission::create(['name' => 'Update Order']);
         Permission::create(['name' => 'Delete Order']);
+
+        // Define permissions for Order management
+        Permission::create(['name' => 'Create Notification']);
+        Permission::create(['name' => 'View Notification']);
+        Permission::create(['name' => 'Update Notification']);
+        Permission::create(['name' => 'Delete Notification']);
+
+
+
+
+
+
+
     }
 }

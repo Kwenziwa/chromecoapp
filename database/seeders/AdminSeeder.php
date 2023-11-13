@@ -50,6 +50,10 @@ class AdminSeeder extends Seeder
         $moderator->assignRole($role_moderator);
 
         //Create Normal User
+        $role_user->givePermissionTo('View Order');
+        $role_user->givePermissionTo('View Notification');
+        $role_user->givePermissionTo('Delete Notification');
+
         $user = User::factory()->create([
             'first_name' => 'User',
             'last_name' => 'User',

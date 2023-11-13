@@ -7,6 +7,8 @@ use Filament\Panel;
 use App\Enums\UserGender;
 use App\Enums\UserStatus;
 use App\Models\Portfolio;
+use App\Models\Notification;
+use App\Models\PickUpLocation;
 use App\Models\MedicationOrder;
 use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\HasName;
@@ -15,6 +17,7 @@ use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -40,6 +43,7 @@ class User extends Authenticatable implements HasName, HasAvatar, MustVerifyEmai
         'profile_image',
         'address',
         'phone_number',
+        'pick_up_location_id',
         'status',
         'email',
         'password',
@@ -89,5 +93,17 @@ class User extends Authenticatable implements HasName, HasAvatar, MustVerifyEmai
     public function medicationOrders()
     {
         return $this->hasMany(MedicationOrder::class); // One-to-Many with MedicationOrder
+    }
+
+    // Define the inverse relationship with notifications
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    // Define the inverse relationship with the pickup location
+    public function pickUpLocation()
+    {
+        return $this->belongsTo(PickUpLocation::class);
     }
 }

@@ -40,7 +40,7 @@ class MedicationOrderResource extends Resource
     protected static ?string $model = MedicationOrder::class;
     protected static ?int $navigationSort = 3;
     protected static ?string $navigationIcon = 'heroicon-o-inbox-stack';
-        public static function getNavigationBadge(): ?string
+    public static function getNavigationBadge(): ?string
     {
         return static::getModel()::processing()->count();
     }
@@ -58,7 +58,7 @@ class MedicationOrderResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-             ->schema([
+            ->schema([
                 Forms\Components\Wizard::make([
                     Forms\Components\Wizard\Step::make('Order Details')->schema([
                         Forms\Components\TextInput::make('order_number')
@@ -68,9 +68,9 @@ class MedicationOrderResource extends Resource
                             ->dehydrated(),
                         Forms\Components\Select::make('user_id')
                             ->relationship(name: 'user', titleAttribute: 'first_name')
-                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->id} - {$record->first_name} {$record->last_name}")
+                            ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->id} - {$record->first_name} {$record->last_name}")
                             ->preload()
-                            ->searchable(['first_name', 'last_name','email', 'phone_number'])
+                            ->searchable(['first_name', 'last_name', 'email', 'phone_number'])
                             ->required(),
                         Forms\Components\DateTimePicker::make('pickup_at')
                             ->label('Pickup Date')
@@ -118,6 +118,7 @@ class MedicationOrderResource extends Resource
                 TextColumn::make('order_number')->sortable()->searchable(),
                 TextColumn::make('user.first_name')->sortable()->searchable(),
                 TextColumn::make('status')->sortable()->searchable()->badge(),
+                TextColumn::make('user.pick_up_locations.id')->label('Pickup Location Code ')->sortable()->searchable(),
                 TextColumn::make('pickup_at')->date()->sortable()->searchable(),
                 TextColumn::make('created_at')->date()->sortable()->searchable(),
                 TextColumn::make('updated_at')->date()->sortable()->searchable(),
@@ -158,14 +159,14 @@ class MedicationOrderResource extends Resource
 
     public function query($query)
     {
-        if (!auth()->user()->hasRole(['Admin','Moderator'])) {
+        if (!auth()->user()->hasRole(['Admin', 'Moderator'])) {
             $query->where('user_id', auth()->id()); // Filter orders for non-admin users
         }
     }
 
     public static function getEloquentQuery(): Builder
     {
-        if (!auth()->user()->hasRole(['Admin','Moderator'])) {
+        if (!auth()->user()->hasRole(['Admin', 'Moderator'])) {
             return parent::getEloquentQuery()->where('user_id', auth()->id());
         }
         return parent::getEloquentQuery();
@@ -183,17 +184,17 @@ class MedicationOrderResource extends Resource
                 TextEntry::make('updated_at')->date(),
 
                 Section::make('Medication Order Items')
-                        ->description('Prevent abuse by limiting the number of requests per period')
-                        ->schema([
-                            RepeatableEntry::make('items')->label('')
-                                            ->schema([
-                                                TextEntry::make('medication.name')->label('Medication Name'),
-                                                TextEntry::make('medication.dosage')->label('Dosage'),
-                                                TextEntry::make('medication.description')->label('Description')
-                                                    ->columns(3),
-                                            ])
-                                            ->columns(2)
-                        ])->columns(1)
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        RepeatableEntry::make('items')->label('')
+                            ->schema([
+                                TextEntry::make('medication.name')->label('Medication Name'),
+                                TextEntry::make('medication.dosage')->label('Dosage'),
+                                TextEntry::make('medication.description')->label('Description')
+                                    ->columns(3),
+                            ])
+                            ->columns(2)
+                    ])->columns(1)
 
 
             ])->columns(2);

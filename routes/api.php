@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Filament\Resources\MedicationResource\Api\MedicationApiService;
+use App\Filament\Resources\PickUpLocationResource\Api\PickUpLocationApiService;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,7 @@ use App\Filament\Resources\MedicationResource\Api\MedicationApiService;
 |
 */
 MedicationApiService::routes();
+PickUpLocationApiService::routes();
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

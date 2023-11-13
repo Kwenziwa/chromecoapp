@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use auth;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -27,6 +28,9 @@ use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
+
+
+
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -62,6 +66,7 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->font('Poppins')
             ->authMiddleware([
                 Authenticate::class,
                 UserMenuItemMiddleware::class, // <here

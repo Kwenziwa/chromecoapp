@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
@@ -71,6 +73,12 @@ class UserResource extends Resource
                             ->image(),
                         TextInput::make('address')
                             ->maxLength(255),
+                        Select::make('pick_up_location_id')
+                            ->relationship('pickUpLocation','name')
+                            ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} - {$record->location_code}")
+                            ->preload()
+                            ->searchable(['name', 'location_code'])
+                            ->required(),
                         PhoneInput::make('phone_number')->onlyCountries(['za']),
                         TextInput::make('password')
                             ->password()
@@ -122,9 +130,13 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                DeleteAction::make()->requiresConfirmation(),
-                ViewAction::make(),
+
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    DeleteAction::make()->requiresConfirmation(),
+                    ViewAction::make(),
+                ])
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

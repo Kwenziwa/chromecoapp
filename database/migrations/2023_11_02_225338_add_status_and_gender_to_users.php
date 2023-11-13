@@ -13,13 +13,14 @@ class AddStatusAndGenderToUsers extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->enum('status', UserStatus::getValues())->default(UserStatus::ACTIVE);
             $table->enum('gender', UserGender::getValues())->nullable();
+            $table->foreignId('pick_up_location_id')->nullable()->constrained('pick_up_locations')->cascadeOnDelete();
         });
     }
 
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['status', 'gender']);
+            $table->dropColumn(['status', 'gender', 'pick_up_location_id']);
         });
     }
 }
