@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('order_number')->unique();
+            $table->foreignId('pickuplocation_id')->nullable()->constrained('pick_up_locations')->cascadeOnDelete();
             $table->dateTime('pickup_at')->nullable();
             $table->enum('status', OrderStatus::getValues())->default(MedicationStatusOrder::PROCESSING);
             $table->longText('notes')->nullable();

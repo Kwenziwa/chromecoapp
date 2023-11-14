@@ -21,6 +21,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\SelectColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\UserResource\Pages;
@@ -73,12 +74,6 @@ class UserResource extends Resource
                             ->image(),
                         TextInput::make('address')
                             ->maxLength(255),
-                        Select::make('pick_up_location_id')
-                            ->relationship('pickUpLocation','name')
-                            ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} - {$record->location_code}")
-                            ->preload()
-                            ->searchable(['name', 'location_code'])
-                            ->required(),
                         PhoneInput::make('phone_number')->onlyCountries(['za']),
                         TextInput::make('password')
                             ->password()
@@ -116,7 +111,6 @@ class UserResource extends Resource
                     'warning' => 'inactive',
                     'danger' => 'suspended',
                 ]),
-
                 TextColumn::make('address')->wrap()->limit(20)->sortable()->searchable(),
                 PhoneNumberColumn::make('phone_number')
                     ->displayFormat(PhoneFormat::NATIONAL)

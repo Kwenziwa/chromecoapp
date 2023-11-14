@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\MedicationOrder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class PickUpLocation extends Model
 {
@@ -14,8 +14,13 @@ class PickUpLocation extends Model
         'location_code',
     ];
 
-    public function user()
+    public function medicationOrders()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(MedicationOrder::class); // One-to-Many with MedicationOrder
+    }
+
+    public function getNameCodeAttribute()
+    {
+        return $this->name . ' - ' . $this->location_code;
     }
 }

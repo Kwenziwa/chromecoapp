@@ -45,7 +45,7 @@ class MedicationTrackingPolicy
      */
     public function delete(User $user, MedicationTracking $medicationTracking)
     {
-        return $user->hasRole(['Admin']);
+       return $user->hasRole(['Admin','Moderator']);
     }
 
     /**
@@ -53,7 +53,7 @@ class MedicationTrackingPolicy
      */
     public function restore(User $user, MedicationTracking $medicationTracking)
     {
-       return $user->hasRole(['Admin']);
+      return $user->hasRole(['Admin','Moderator']);
     }
 
     /**
@@ -61,6 +61,6 @@ class MedicationTrackingPolicy
      */
     public function forceDelete(User $user, MedicationTracking $medicationTracking)
     {
-        return $user->hasRole(['Admin']);
+       return $user->hasRole(['Admin','Moderator']);
     }
 }

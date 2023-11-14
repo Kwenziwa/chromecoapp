@@ -44,7 +44,7 @@ class MedicationOrderPolicy
      */
     public function update(User $user, MedicationOrder $medicationOrder): bool
     {
-        return $user->hasRole(['Admin']);
+        return $user->hasRole(['Admin', 'Moderator']);
     }
 
     /**
@@ -52,7 +52,7 @@ class MedicationOrderPolicy
      */
     public function delete(User $user, MedicationOrder $medicationOrder): bool
     {
-        return $user->hasRole(['Admin']);
+        return $user->hasRole(['Admin', 'Moderator']);
     }
 
     /**
@@ -60,7 +60,7 @@ class MedicationOrderPolicy
      */
     public function restore(User $user, MedicationOrder $medicationOrder): bool
     {
-        return $user->hasRole(['Admin']);
+        return $user->hasRole(['Admin', 'Moderator']);
     }
 
     /**
@@ -68,6 +68,6 @@ class MedicationOrderPolicy
      */
     public function forceDelete(User $user, MedicationOrder $medicationOrder): bool
     {
-        return $user->hasRole(['Admin']);
+        return $user->hasRole(['Admin', 'Moderator']);
     }
-}
+} 

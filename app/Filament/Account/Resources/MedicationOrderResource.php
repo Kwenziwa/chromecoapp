@@ -1,41 +1,25 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Account\Resources;
 
-use auth;
-use Wizard\Step;
-use Filament\Card;
-use Filament\Forms;
-use Filament\Select;
-use Filament\Tables;
-use Filament\Wizard;
-use Filament\TextInput;
-use Filament\DatePicker;
-use Filament\Forms\Form;
-use App\Enums\OrderStatus;
+use App\Enums\MedicationStatusOrder;
+use App\Filament\Resources\MedicationOrderResource\Pages;
 use App\Models\Medication;
-use Filament\Tables\Table;
-use Filament\DateTimePicker;
-use Pages\ViewMedicationOrder;
 use App\Models\MedicationOrder;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use App\Enums\MedicationStatusOrder;
-use Filament\Forms\Components\Repeater;
+use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Model;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Infolists\Components\Section;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Forms\Components\MarkdownEditor;
-use Filament\Infolists\Components\RepeatableEntry;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\MedicationOrderResource\Pages;
-use App\Filament\Resources\MedicationOrderResource\RelationManagers;
+use Illuminate\Database\Eloquent\Model;
 
 class MedicationOrderResource extends Resource
 {
@@ -73,12 +57,6 @@ class MedicationOrderResource extends Resource
                             ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->id} - {$record->first_name} {$record->last_name}")
                             ->preload()
                             ->searchable(['first_name', 'last_name', 'email', 'phone_number'])
-                            ->required(),
-                        \Filament\Forms\Components\Select::make('pickuplocation_id')
-                            ->relationship('pickUpLocation', 'name')
-                            ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} - {$record->location_code}")
-                            ->preload()
-                            ->searchable(['name', 'location_code'])
                             ->required(),
                         Forms\Components\DateTimePicker::make('pickup_at')
                             ->label('Pickup Date')
@@ -124,20 +102,19 @@ class MedicationOrderResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('order_number')->sortable()->searchable(),
-                TextColumn::make('user.fullname')->sortable()->searchable(),
+                TextColumn::make('user.first_name')->sortable()->searchable(),
                 TextColumn::make('status')->sortable()->searchable()->badge(),
-                TextColumn::make('pickuplocation.namecode')->label('Pickup Location Code ')->sortable()->searchable(),
-                TextColumn::make('pickup_at')->label('Pick-up Date')->date()->sortable()->searchable(),
+                TextColumn::make('user.pick_up_location.')->label('Pickup Location Code ')->sortable()->searchable(),
+                TextColumn::make('pickup_at')->date()->sortable()->searchable(),
+                TextColumn::make('created_at')->date()->sortable()->searchable(),
+                TextColumn::make('updated_at')->date()->sortable()->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    DeleteAction::make()->requiresConfirmation(),
-                    ViewAction::make(),
-                ])
+                EditAction::make(),
+                ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -191,8 +168,9 @@ class MedicationOrderResource extends Resource
                 TextEntry::make('pickup_at')->date(),
                 TextEntry::make('created_at')->date(),
                 TextEntry::make('updated_at')->date(),
+
                 Section::make('Medication Order Items')
-                    ->description('List of Patient')
+                    ->description('Prevent abuse by limiting the number of requests per period')
                     ->schema([
                         RepeatableEntry::make('items')->label('')
                             ->schema([

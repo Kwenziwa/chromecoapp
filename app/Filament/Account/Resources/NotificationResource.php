@@ -1,26 +1,18 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Account\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Notification;
 use Filament\Resources\Resource;
-use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Select;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\ActionGroup;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Forms\Components\MarkdownEditor;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\NotificationResource\Pages;
-use App\Filament\Resources\NotificationResource\RelationManagers;
 
 class NotificationResource extends Resource
 {
@@ -38,6 +30,7 @@ class NotificationResource extends Resource
     {
         // get processing orders count
         $count = (int) static::getNavigationBadge();
+
         // show warning badge if there are more than 10 orders
         // in processing state otherwise show success badge
         return $count > 0 ? 'warning' : 'success';
@@ -67,19 +60,16 @@ class NotificationResource extends Resource
             ->columns([
                 TextColumn::make('id'),
                 TextColumn::make('user.fullname')->label('Sent To'),
-                CheckboxColumn::make('is_read')->label('Read/Unread'),
-                TextColumn::make('message')->wrap()->limit(100),
+                TextColumn::make('message'),
+                TextColumn::make('Status'),
                 TextColumn::make('created_at')->label('Sent on'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    DeleteAction::make()->requiresConfirmation(),
-                    ViewAction::make(),
-                ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -96,14 +86,6 @@ class NotificationResource extends Resource
         return [
             //
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        if (!auth()->user()->hasRole(['Admin', 'Moderator'])) {
-            return parent::getEloquentQuery()->where('user_id', auth()->id());
-        }
-        return parent::getEloquentQuery();
     }
 
     public static function getPages(): array

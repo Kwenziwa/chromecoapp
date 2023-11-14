@@ -3,23 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Filament\Panel;
 use App\Enums\UserGender;
 use App\Enums\UserStatus;
-use App\Models\Portfolio;
-use App\Models\Notification;
-use App\Models\PickUpLocation;
 use App\Models\MedicationOrder;
-use Laravel\Sanctum\HasApiTokens;
-use Filament\Models\Contracts\HasName;
-use Spatie\Permission\Traits\HasRoles;
+use App\Models\Notification;
+use App\Models\Portfolio;
 use Filament\Models\Contracts\HasAvatar;
-use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasName, HasAvatar, MustVerifyEmail
 {
@@ -43,7 +39,6 @@ class User extends Authenticatable implements HasName, HasAvatar, MustVerifyEmai
         'profile_image',
         'address',
         'phone_number',
-        'pick_up_location_id',
         'status',
         'email',
         'password',
@@ -101,9 +96,9 @@ class User extends Authenticatable implements HasName, HasAvatar, MustVerifyEmai
         return $this->hasMany(Notification::class);
     }
 
-    // Define the inverse relationship with the pickup location
-    public function pickUpLocation()
+    public function getFullNameAttribute()
     {
-        return $this->belongsTo(PickUpLocation::class);
+        return $this->first_name . ' ' . $this->middle_name . ' ' . $this->last_name;
     }
+
 }
