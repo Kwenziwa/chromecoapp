@@ -10,6 +10,8 @@ Chromeco is a web app designed to enable patients to receive their chronic medic
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
 - [Authors](#authors)
 
 ## Introduction
@@ -74,6 +76,24 @@ Dont forget to update the .env file with your database & email credentials.
 ## Configuration
 Adjust configuration options in the .env file as needed.
 
+## Related projects
+
+Here are a few related projects that align with the theme of health-tech and user-centric solutions:
+
+1. HealthHub: Personal Health Management App
+
+Description: HealthHub is a comprehensive personal health management application designed to empower users in tracking their health metrics, setting wellness goals, and accessing personalized health recommendations. The project focuses on user engagement and data-driven insights for proactive health management.
+
+2. MediConnect: Medication Adherence Platform
+
+Description: MediConnect is a platform addressing medication adherence challenges. It includes features such as medication reminders, interactive educational content, and a community forum for users to share experiences. The project aims to enhance medication adherence through a holistic approach.
+
+
+## Contributing
+Feel free to contribute to the project! Check out the Contributing Guidelines for more information.
+
+## License
+This project is licensed under the MIT License.
 ## Authors
 - [Nosipho Khumalo](https://github.com/NosiphoSK1208)
 - [Kwenziwa Khanyile](https://www.github.com/kwenziwa)
